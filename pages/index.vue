@@ -12,19 +12,21 @@
         <img :src="slide.image" class="w-full h-full object-cover" :alt="slide.title" />
         
         <div class="absolute inset-0 z-20 container mx-auto px-6 flex flex-col justify-center">
-          <div class="max-w-4xl space-y-8" :class="activeSlide === index ? 'translate-y-0 opacity-100 transition-all duration-1000 delay-500' : 'translate-y-20 opacity-0'">
-             <span class="inline-block px-5 py-2 glass text-brand-cyan font-black text-xs uppercase tracking-[0.3em] rounded-full border border-white/20">
-               {{ slide.tag }}
-             </span>
-             <h1 class="text-6xl md:text-8xl font-black text-white leading-[1.05] tracking-tighter drop-shadow-2xl">
-               {{ slide.title }}<span class="text-brand-red">.</span>
+          <div class="max-w-4xl space-y-6 md:space-y-10" :class="activeSlide === index ? 'translate-y-0 opacity-100 transition-all duration-1000 delay-500' : 'translate-y-20 opacity-0'">
+             <div class="flex">
+               <span class="px-5 py-2 glass text-brand-cyan font-black text-[10px] uppercase tracking-[0.3em] rounded-full border border-white/20">
+                 {{ slide.tag }}
+               </span>
+             </div>
+             <h1 class="text-5xl sm:text-6xl md:text-8xl font-black text-white leading-[1] tracking-tighter drop-shadow-2xl">
+               {{ slide.title }}<span class="text-brand-accent">.</span>
              </h1>
-             <p class="text-xl text-slate-200 max-w-2xl leading-relaxed font-medium drop-shadow-lg">
+             <p class="text-lg md:text-xl text-slate-200 max-w-2xl leading-relaxed font-medium drop-shadow-lg opacity-90">
                {{ slide.desc }}
              </p>
-             <div class="flex flex-wrap gap-6 pt-4">
-               <NuxtLink to="/membership" class="btn-premium px-10 py-5">Join the Society</NuxtLink>
-               <NuxtLink to="/about" class="btn-outline-premium !text-white !border-white/20 !glass px-10 py-5">Our Mission</NuxtLink>
+             <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4">
+               <NuxtLink to="/membership" class="btn-premium !px-10 !py-5 !text-xs">Join the Society</NuxtLink>
+               <NuxtLink to="/about" class="btn-outline-premium !text-white !border-white/20 !glass !px-10 !py-5 !text-xs">Our Mission</NuxtLink>
              </div>
           </div>
         </div>
