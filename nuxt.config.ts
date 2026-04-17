@@ -5,8 +5,13 @@ export default defineNuxtConfig({
   devServer: {
     port: 3002
   },
-  modules: ['@nuxtjs/tailwindcss', 'lucide-nuxt', '@vueuse/nuxt'],
-  css: ['~/assets/css/main.css'],
+  modules: ['@nuxtjs/tailwindcss', 'lucide-nuxt', '@vueuse/nuxt', '@nuxt/icon'],
+  css: ['~/assets/font/stylesheet.css', '~/assets/css/main.css'],
+  postcss: {
+    plugins: {
+      autoprefixer: {},
+    },
+  },
   tailwindcss: {
     viewer: true,
   },

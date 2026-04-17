@@ -12,22 +12,26 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#00A8B5', // Teal/Cyan from logo
-          light: '#4FD1C5',
-          dark: '#087E8B',
+          DEFAULT: '#1d4e89', // Deep Blue from logo
+          light: '#28AAE1', // Cyan from logo
+          dark: '#033958',
         },
         secondary: {
-          DEFAULT: '#E53E3E', // Red from logo
+          DEFAULT: '#E4222E', // Red from logo
           light: '#FC8181',
           dark: '#9B2C2C',
         },
         accent: {
-          DEFAULT: '#2D3748', // Dark grey/blue
+          DEFAULT: '#2D3748',
           light: '#4A5568',
           dark: '#1A202C',
         },
         brand: {
-          blue: '#1A365D', // Dark blue from logo
+          blue: '#1d4e89',
+          red: '#E4222E',
+          cyan: '#28AAE1',
+          dark: '#033958',
+          accent: '#00D1FF',
         }
       },
       fontFamily: {

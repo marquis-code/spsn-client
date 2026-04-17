@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ScreenLoader :loading="pageLoading" />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -7,5 +8,13 @@
 </template>
 
 <script setup>
-// Global entry point
+import { ref, onMounted } from 'vue'
+
+const pageLoading = ref(true)
+
+onMounted(() => {
+  setTimeout(() => {
+    pageLoading.value = false
+  }, 2000)
+})
 </script>

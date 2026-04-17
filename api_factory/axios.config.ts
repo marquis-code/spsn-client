@@ -3,14 +3,18 @@ import { useUser } from "@/composables/modules/auth/user";
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import { useTokenManager } from '@/composables/core/useTokenManager'
 
-const { showToast } = useCustomToast();
-const { token, logOut } = useUser();
-const tokenManager = useTokenManager();
+// Composable calls must happen inside the interceptors or setup lifecycle to be SSR safe
+const getComposables = () => {
+  const { showToast } = useCustomToast();
+  const { token, logOut } = useUser();
+  const tokenManager = useTokenManager();
+  return { showToast, token, logOut, tokenManager };
+};
 
-const $GATEWAY_ENDPOINT = process.env.VITE_BASE_URL || "http://localhost:3000/api";
+const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "http://localhost:3000/api";
 const $GATEWAY_ENDPOINT_WITHOUT_VERSION = $GATEWAY_ENDPOINT;
 const $GATEWAY_ENDPOINT_V2 = $GATEWAY_ENDPOINT + "/v2";
-const $IMAGE_UPLOAD_ENDPOINT = process.env.VITE_IMAGE_UPLOAD_BASE_URL || $GATEWAY_ENDPOINT + "/upload";
+const $IMAGE_UPLOAD_ENDPOINT = import.meta.env.VITE_IMAGE_UPLOAD_BASE_URL || $GATEWAY_ENDPOINT + "/upload";
 
 // Helper function to redirect to login page
 const redirectToLogin = () => {
@@ -71,11 +75,12 @@ const instanceArray = [
 
 instanceArray.forEach((instance) => {
   instance.interceptors.request.use((config: any) => {
+    const { token, businessId } = useUser();
+    
     if (token.value) {
       config.headers.Authorization = `Bearer ${token.value}`;
     }
 
-    const { businessId } = useUser();
     if (businessId.value) {
       config.headers['X-Business-Id'] = businessId.value;
     }
@@ -88,6 +93,10 @@ instanceArray.forEach((instance) => {
       return response;
     },
     (err: any) => {
+      const { showToast } = useCustomToast();
+      const { token, logOut } = useUser();
+      const tokenManager = useTokenManager();
+
       if (typeof err.response === "undefined") {
         showToast({
           title: "Error",
