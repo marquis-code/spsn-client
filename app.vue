@@ -9,12 +9,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useCMS } from '@/composables/useCMS'
 
+const { loadCMS } = useCMS()
 const pageLoading = ref(true)
 
-onMounted(() => {
+onMounted(async () => {
+  await loadCMS()
   setTimeout(() => {
     pageLoading.value = false
-  }, 2000)
+  }, 1000)
 })
 </script>

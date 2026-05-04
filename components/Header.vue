@@ -17,10 +17,10 @@
         <!-- Logo Section -->
         <NuxtLink to="/" class="flex items-center gap-3 relative z-[110]" @click="isMobileMenuOpen = false">
           <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1 shadow-lg hover:rotate-[360deg] transition-transform duration-1000 border border-slate-100 overflow-hidden">
-            <img src="@/assets/images/logo.jpeg" alt="SCPSN Logo" class="w-full h-full object-contain" />
+            <img :src="cmsConfig?.global?.logoUrl || '/_nuxt/assets/images/logo.jpeg'" alt="Logo" class="w-full h-full object-contain" />
           </div>
           <div class="flex flex-col">
-             <span class="text-[17px] font-black tracking-tight leading-none text-white">SCPSN</span>
+             <span class="text-[17px] font-black tracking-tight leading-none text-white">{{ cmsConfig?.global?.siteName || 'SCPSN' }}</span>
              <span class="text-[9px] font-bold tracking-[0.2em] text-brand-cyan uppercase">Nigeria</span>
           </div>
         </NuxtLink>
@@ -208,6 +208,9 @@ import {
   LucideInfo
 } from 'lucide-vue-next'
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useCMS } from '@/composables/useCMS'
+
+const { cmsConfig } = useCMS()
 
 const route = useRoute()
 const isScrolled = ref(false)

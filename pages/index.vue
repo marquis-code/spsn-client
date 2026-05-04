@@ -3,7 +3,7 @@
     <!-- Premium Hero Section -->
     <section class="relative h-screen min-h-[750px] overflow-hidden flex items-center justify-center">
       <div 
-        v-for="(slide, index) in slides" 
+        v-for="(slide, index) in activeSlides" 
         :key="index"
         :class="['absolute inset-0 transition-all duration-[2000ms] ease-out', activeSlide === index ? 'opacity-100 scale-100' : 'opacity-0 scale-110 pointer-events-none']"
       >
@@ -35,7 +35,7 @@
       <!-- Slide Controls -->
       <div class="absolute bottom-12 right-12 z-30 flex items-center gap-6">
         <button 
-          v-for="i in slides.length" 
+          v-for="i in activeSlides.length" 
           :key="i"
           @click="activeSlide = i-1"
           :class="['h-1.5 transition-all duration-500 rounded-full', activeSlide === i-1 ? 'w-20 bg-brand-cyan' : 'w-4 bg-white/30']"
@@ -75,14 +75,18 @@
        <div class="container mx-auto px-6">
           <div class="flex flex-col lg:flex-row justify-between items-end gap-10 mb-24">
              <div class="max-w-2xl space-y-6">
-                <h2 class="text-5xl md:text-6xl font-black text-brand-blue tracking-tighter">Advancing the Frontiers of <span class="text-brand-cyan">Cellular Diagnosis</span></h2>
-                <p class="text-lg text-slate-500 leading-relaxed font-medium">The Society for Cellular Pathology Scientists of Nigeria is committed to instituting excellence in laboratory medicine across Africa.</p>
+                <h2 class="text-5xl md:text-6xl font-black text-brand-blue tracking-tighter">
+                   {{ cmsConfig?.public?.home?.homeHeaders?.pillarsTitle || 'Advancing the Frontiers of Cellular Diagnosis' }}
+                </h2>
+                <p class="text-lg text-slate-500 leading-relaxed font-medium">
+                   {{ cmsConfig?.public?.home?.homeHeaders?.pillarsSubtitle || 'The Society for Cellular Pathology Scientists of Nigeria is committed to instituting excellence in laboratory medicine across Africa.' }}
+                </p>
              </div>
              <NuxtLink to="/about" class="btn-outline-premium">Learn More About Us</NuxtLink>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-             <div v-for="(p, i) in pillars" :key="i" class="p-10 bg-slate-50 rounded-[40px] border border-slate-100 hover:border-brand-cyan/30 hover:shadow-2xl hover:shadow-cyan-900/5 transition-all duration-500 group">
+             <div v-for="(p, i) in activePillars" :key="i" class="p-10 bg-slate-50 rounded-[40px] border border-slate-100 hover:border-brand-cyan/30 hover:shadow-2xl hover:shadow-cyan-900/5 transition-all duration-500 group">
                 <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-brand-blue mb-8 group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500">
                    <component :is="p.icon" :size="28" />
                 </div>
@@ -102,7 +106,7 @@
        
        <div class="container mx-auto px-6 relative z-10">
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
-             <div v-for="s in stats" :key="s.label" class="text-center animate-on-scroll">
+             <div v-for="s in activeStats" :key="s.label" class="text-center animate-on-scroll">
                 <div class="text-6xl font-black text-white tracking-tighter">{{ s.value }}<span class="text-brand-cyan">+</span></div>
                 <div class="text-xs font-black uppercase tracking-[0.3em] text-brand-cyan">{{ s.label }}</div>
              </div>
@@ -152,8 +156,12 @@
        <div class="container mx-auto px-6 relative z-10">
           <div class="flex flex-col md:flex-row justify-between items-center gap-10 mb-24">
              <div class="space-y-4">
-                <h2 class="text-5xl font-black text-brand-blue tracking-tighter">Strategic <span class="text-brand-red">Initiatives</span></h2>
-                <p class="text-slate-500 font-medium text-lg">Leading key scientific transformations in the healthcare sector.</p>
+                <h2 class="text-5xl font-black text-brand-blue tracking-tighter">
+                   {{ cmsConfig?.public?.home?.homeHeaders?.initiativesTitle || 'Strategic Initiatives' }}
+                </h2>
+                <p class="text-slate-500 font-medium text-lg">
+                   {{ cmsConfig?.public?.home?.homeHeaders?.initiativesSubtitle || 'Leading key scientific transformations in the healthcare sector.' }}
+                </p>
              </div>
              <div class="flex gap-4">
                 <button class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-brand-blue hover:text-white transition-all duration-300">
@@ -166,7 +174,7 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-             <div v-for="(ini, i) in initiatives" :key="i" class="initiative-card group p-1 tracking-tight">
+             <div v-for="(ini, i) in activeInitiatives" :key="i" class="initiative-card group p-1 tracking-tight">
                 <div class="bg-slate-50 rounded-[3rem] p-12 h-full border border-slate-100 group-hover:bg-brand-blue group-hover:border-brand-blue transition-all duration-500 relative overflow-hidden">
                    <div class="absolute -right-10 -bottom-10 opacity-[0.05] group-hover:opacity-10 text-brand-blue group-hover:text-white transition-all">
                       <component :is="ini.icon" :size="200" />
@@ -203,6 +211,29 @@
              <span class="text-3xl font-black text-slate-300 tracking-tighter">ASCP</span>
              <span class="text-3xl font-black text-slate-300 tracking-tighter">IPH</span>
              <span class="text-3xl font-black text-slate-300 tracking-tighter">MLSCN</span>
+          </div>
+       </div>
+    </section>
+
+    <!-- Membership Tiers Section -->
+    <section class="py-32 bg-white relative">
+       <div class="container mx-auto px-6">
+          <div class="text-center max-w-3xl mx-auto mb-20 space-y-6">
+             <h2 class="text-5xl font-black text-brand-blue tracking-tighter">Member <span class="text-brand-red">Tiers</span></h2>
+             <p class="text-slate-500 font-medium">Join our global community of scientific experts.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+             <div v-for="(tier, i) in activeTiers" :key="i" class="p-12 rounded-[3rem] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all duration-500 group">
+                <h3 class="text-2xl font-black text-brand-blue mb-2">{{ tier.title }}</h3>
+                <div class="text-4xl font-black text-brand-cyan mb-8">₦{{ tier.price }}<span class="text-xs text-slate-400 font-bold">/year</span></div>
+                <ul class="space-y-4 mb-10">
+                   <li v-for="feat in tier.features" :key="feat" class="flex items-center gap-3 text-sm font-medium text-slate-500">
+                      <LucideShieldCheck class="text-emerald-500" :size="16" />
+                      {{ feat }}
+                   </li>
+                </ul>
+                <NuxtLink to="/membership" class="block w-full py-4 text-center bg-brand-blue text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-brand-red transition-colors">Join Now</NuxtLink>
+             </div>
           </div>
        </div>
     </section>
@@ -246,11 +277,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useGetBoardMembers } from '@/composables/modules/members/useGetBoardMembers'
+import { useCMS } from '@/composables/useCMS'
 import hero1 from "@/assets/images/hero1.jpg"
 import hero2 from "@/assets/images/hero2.jpg"
 import hero3 from "@/assets/images/hero3.jpg"
+
+const { cmsConfig } = useCMS()
 
 const { loading: loadingBoard, boardMembers, getBoardMembers } = useGetBoardMembers()
 import { 
@@ -273,54 +307,95 @@ import {
 const activeSlide = ref(0)
 let timer = null
 
-const slides = [
-  {
-    tag: 'Welcome to SCPSN',
-    title: 'Precision in Cellular Pathology',
-    desc: 'Empowering medical laboratory scientists specializing in Histopathology and Cytopathology through innovation and global excellence.',
-    image: hero2
-  },
-  {
-    tag: 'Academic Mastery',
-    title: 'The Future of Histology',
-    desc: 'Setting the benchmark for laboratory practices in Nigeria and the West African sub-region through rigorous standardization.',
-    image: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop'
-  },
-  {
-    tag: 'Scientific Innovation',
-    title: 'Mastery in Diagnostics',
-    desc: 'Access advanced research resources, international conference materials, and world-class scientific journals.',
-    image: hero3
+const activeSlides = computed(() => {
+  if (cmsConfig.value?.public?.home?.slides?.length) {
+    return cmsConfig.value.public.home.slides.map(s => ({
+       tag: s.tag,
+       title: s.title,
+       desc: s.desc,
+       image: s.image || hero2
+    }))
   }
-]
+  return [
+    {
+      tag: 'Welcome to SCPSN',
+      title: 'Precision in Cellular Pathology',
+      desc: 'Empowering medical laboratory scientists specializing in Histopathology and Cytopathology through innovation and global excellence.',
+      image: hero2
+    },
+    {
+      tag: 'Academic Mastery',
+      title: 'The Future of Histology',
+      desc: 'Setting the benchmark for laboratory practices in Nigeria and the West African sub-region through rigorous standardization.',
+      image: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop'
+    },
+    {
+      tag: 'Scientific Innovation',
+      title: 'Mastery in Diagnostics',
+      desc: 'Access advanced research resources, international conference materials, and world-class scientific journals.',
+      image: hero3
+    }
+  ]
+})
 
-const marqueeItems = [
-  { label: 'Histopathology Journals', tag: 'Publications', icon: LucideLibrary },
-  { label: 'Cytopathology Masterclass', tag: 'Webinar', icon: LucideGlobe },
-  { label: 'Standardized Protocols', tag: 'Guideline', icon: LucideFlaskConical },
-  { label: 'Member Accreditation', tag: 'Update', icon: LucideGraduationCap },
-  { label: 'Scientific Abstracts', tag: 'Submissions', icon: LucideMicroscope },
-]
+const activePillars = computed(() => {
+  if (cmsConfig.value?.public?.home?.pillars?.length) {
+    return cmsConfig.value.public.home.pillars.map((p, i) => ({
+      title: p.title,
+      desc: p.desc,
+      icon: [LucideDna, LucideFlaskConical, LucideLibrary, LucideStethoscope][i % 4]
+    }))
+  }
+  return [
+    { title: 'Advanced Research', desc: 'Facilitating cutting-edge investigative studies in molecular diagnostics and genomic pathology.', icon: LucideDna },
+    { title: 'Standardization', desc: 'Implementing national and regional protocols for high-precision histopathology processing.', icon: LucideFlaskConical },
+    { title: 'Digital Library', desc: 'Exclusive access to our secure vault of peer-reviewed scientific journals and newsletters.', icon: LucideLibrary },
+    { title: 'Mastery Portal', desc: 'Improving diagnostic accuracy through continuous training and international collaboration.', icon: LucideStethoscope },
+  ]
+})
 
-const pillars = [
-  { title: 'Advanced Research', desc: 'Facilitating cutting-edge investigative studies in molecular diagnostics and genomic pathology.', icon: LucideDna },
-  { title: 'Standardization', desc: 'Implementing national and regional protocols for high-precision histopathology processing.', icon: LucideFlaskConical },
-  { title: 'Digital Library', desc: 'Exclusive access to our secure vault of peer-reviewed scientific journals and newsletters.', icon: LucideLibrary },
-  { title: 'Mastery Portal', desc: 'Improving diagnostic accuracy through continuous training and international collaboration.', icon: LucideStethoscope },
-]
+const activeStats = computed(() => {
+  if (cmsConfig.value?.public?.home?.stats?.length) {
+    return cmsConfig.value.public.home.stats.map((s, i) => ({
+      label: s.label,
+      value: s.value,
+      icon: [LucideUsers, LucideCalendar, LucideFlaskConical, LucideAward][i % 4]
+    }))
+  }
+  return [
+    { label: 'Qualified Scientists', value: '1,200', icon: LucideUsers },
+    { label: 'Scientific Events', value: '82', icon: LucideCalendar },
+    { label: 'Lab Networks', value: '450', icon: LucideFlaskConical },
+    { label: 'Awards Issued', value: '45', icon: LucideAward },
+  ]
+})
 
-const stats = [
-  { label: 'Qualified Scientists', value: '1,200', icon: LucideUsers },
-  { label: 'Scientific Events', value: '82', icon: LucideCalendar },
-  { label: 'Lab Networks', value: '450', icon: LucideFlaskConical },
-  { label: 'Awards Issued', value: '45', icon: LucideAward },
-]
+const activeInitiatives = computed(() => {
+  if (cmsConfig.value?.public?.home?.initiatives?.length) {
+    return cmsConfig.value.public.home.initiatives.map((ini, i) => ({
+      title: ini.title,
+      desc: ini.desc,
+      icon: [LucideGlobe, LucideMicroscope, LucideDna][i % 3],
+      to: '/about'
+    }))
+  }
+  return [
+    { title: 'Digital Pathology Expansion', desc: 'Implementing Al-driven diagnostic tools in laboratories across Nigeria.', icon: LucideGlobe, to: '/about' },
+    { title: 'Cancer Screening Project', desc: 'Collaborating with oncology centers for early histopathology detection.', icon: LucideMicroscope, to: '/conferences' },
+    { title: 'Molecular Genetics Hub', desc: 'A dedicated research initiative for genomic cellular analysis.', icon: LucideDna, to: '/abstracts' },
+  ]
+})
 
-const initiatives = [
-  { title: 'Digital Pathology Expansion', desc: 'Implementing Al-driven diagnostic tools in laboratories across Nigeria.', icon: LucideGlobe, to: '/about' },
-  { title: 'Cancer Screening Project', desc: 'Collaborating with oncology centers for early histopathology detection.', icon: LucideMicroscope, to: '/conferences' },
-  { title: 'Molecular Genetics Hub', desc: 'A dedicated research initiative for genomic cellular analysis.', icon: LucideDna, to: '/abstracts' },
-]
+const activeTiers = computed(() => {
+  if (cmsConfig.value?.public?.home?.tiers?.length) {
+    return cmsConfig.value.public.home.tiers
+  }
+  return [
+    { title: 'Full Member', price: '50,000', features: ['Voting rights', 'Journal access', 'Conference discounts'] },
+    { title: 'Associate Member', price: '30,000', features: ['Journal access', 'Resource vault'] },
+    { title: 'Student Member', price: '10,000', features: ['Learning materials', 'Mentorship'] }
+  ]
+})
 
 onMounted(() => {
   // Intersection Observer for scroll animations
@@ -335,7 +410,7 @@ onMounted(() => {
   document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el))
 
   timer = setInterval(() => {
-    activeSlide.value = (activeSlide.value + 1) % slides.length
+    activeSlide.value = (activeSlide.value + 1) % activeSlides.value.length
   }, 6000)
 })
 

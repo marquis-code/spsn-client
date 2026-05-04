@@ -9,7 +9,7 @@
         <div class="lg:col-span-1 space-y-8">
           <NuxtLink to="/" class="flex items-center gap-4 group">
             <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-xl group-hover:scale-110 transition-transform">
-               <img src="@/assets/images/logo.jpeg" alt="SCPSN Logo" class="object-contain" />
+               <img :src="cmsConfig?.global?.logoUrl || '/_nuxt/assets/images/logo.jpeg'" alt="Logo" class="object-contain" />
             </div>
             <div>
                <!-- <h3 class="text-sm font-black text-white uppercase tracking-tighter">SCPSN</h3> -->
@@ -20,8 +20,17 @@
             Advancing the frontiers of cellular diagnosis and therapeutic laboratory science in Nigeria and beyond.
           </p>
           <div class="flex gap-4">
-            <a v-for="social in socials" :key="social.icon" href="#" class="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all duration-300">
-               <component :is="social.icon" :size="18" />
+            <a v-if="cmsConfig?.global?.socialLinks?.facebook" :href="cmsConfig.global.socialLinks.facebook" target="_blank" class="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all duration-300">
+               <LucideFacebook :size="18" />
+            </a>
+            <a v-if="cmsConfig?.global?.socialLinks?.twitter" :href="cmsConfig.global.socialLinks.twitter" target="_blank" class="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all duration-300">
+               <LucideTwitter :size="18" />
+            </a>
+            <a v-if="cmsConfig?.global?.socialLinks?.linkedin" :href="cmsConfig.global.socialLinks.linkedin" target="_blank" class="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all duration-300">
+               <LucideLinkedin :size="18" />
+            </a>
+            <a v-if="cmsConfig?.global?.socialLinks?.instagram" :href="cmsConfig.global.socialLinks.instagram" target="_blank" class="w-10 h-10 rounded-xl glass-dark flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all duration-300">
+               <LucideInstagram :size="18" />
             </a>
           </div>
         </div>
@@ -60,9 +69,9 @@
       </div>
 
       <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-         <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-            &copy; {{ new Date().getFullYear() }} Society for Cellular Pathology Scientists of Nigeria.
-         </p>
+          <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+            &copy; {{ new Date().getFullYear() }} {{ cmsConfig?.global?.siteName || 'Society for Cellular Pathology Scientists of Nigeria' }}.
+          </p>
          <div class="flex gap-8">
             <NuxtLink to="/privacy" class="text-[10px] font-black text-slate-500 uppercase tracking-widest hover:text-white transition-colors">Privacy Policy</NuxtLink>
             <NuxtLink to="/terms" class="text-[10px] font-black text-slate-500 uppercase tracking-widest hover:text-white transition-colors">Terms of Use</NuxtLink>
@@ -77,10 +86,13 @@ import {
   LucideFacebook, 
   LucideTwitter, 
   LucideLinkedin, 
+  LucideInstagram,
   LucideArrowRight 
 } from 'lucide-vue-next'
 import { useNewsletter } from '@/composables/modules/newsletters/useNewsletter'
+import { useCMS } from '@/composables/useCMS'
 
+const { cmsConfig } = useCMS()
 const { loading, email, subscribe } = useNewsletter()
 
 const socials = [
