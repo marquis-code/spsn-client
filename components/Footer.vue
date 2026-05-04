@@ -46,9 +46,14 @@
            <h4 class="text-xs font-black text-white uppercase tracking-[0.2em]">Scientific Updates</h4>
            <p class="text-sm text-slate-400 font-medium leading-relaxed">Join our mailing list for the latest research papers and conference alerts.</p>
            <div class="relative group">
-              <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white outline-none focus:border-brand-cyan transition-all group-hover:border-white/20">
-              <button class="absolute right-2 top-2 bottom-2 aspect-square bg-brand-cyan text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95 shadow-lg shadow-cyan-900/20">
-                 <LucideArrowRight :size="18" />
+              <input v-model="email" type="email" placeholder="Email Address" class="form-input !py-4 pr-16 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-brand-cyan">
+              <button 
+                @click="subscribe" 
+                :disabled="loading"
+                class="absolute right-2 top-2 bottom-2 aspect-square bg-brand-cyan text-brand-dark rounded-xl flex items-center justify-center hover:scale-105 transition-all active:scale-95 disabled:opacity-50"
+              >
+                 <LucideArrowRight v-if="!loading" :size="18" />
+                 <div v-else class="w-4 h-4 border-2 border-brand-dark/20 border-t-brand-dark rounded-full animate-spin"></div>
               </button>
            </div>
         </div>
@@ -74,6 +79,9 @@ import {
   LucideLinkedin, 
   LucideArrowRight 
 } from 'lucide-vue-next'
+import { useNewsletter } from '@/composables/modules/newsletters/useNewsletter'
+
+const { loading, email, subscribe } = useNewsletter()
 
 const socials = [
   { icon: LucideFacebook },
@@ -85,7 +93,7 @@ const footerLinks = {
   'Quick Navigation': [
     { label: 'Scientific Board', to: '/about' },
     { label: 'Upcoming Conferences', to: '/conferences' },
-    { label: 'Membership Portal', to: '/membership' },
+    { label: 'Membership Portal', to: 'http://localhost:3003' },
     { label: 'Payment Verification', to: '/payment' },
   ],
   'Resources': [

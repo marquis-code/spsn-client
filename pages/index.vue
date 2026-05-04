@@ -25,8 +25,8 @@
                {{ slide.desc }}
              </p>
              <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4">
-               <NuxtLink to="/membership" class="btn-premium !px-10 !py-5 !text-xs">Join the Society</NuxtLink>
-               <NuxtLink to="/about" class="btn-outline-premium !text-white !border-white/20 !glass !px-10 !py-5 !text-xs">Our Mission</NuxtLink>
+               <NuxtLink to="/membership" class="btn-premium">Join the Society</NuxtLink>
+               <NuxtLink to="/about" class="btn-outline-premium !text-white !border-white/20 !glass">Our Mission</NuxtLink>
              </div>
           </div>
         </div>
@@ -215,17 +215,31 @@
              <p class="text-slate-500 font-medium">Distinguished professionals leading the way in Nigerian Cellular Pathology.</p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-             <div v-for="i in 3" :key="i" class="relative group overflow-hidden rounded-[3rem] aspect-[4/5] bg-white border border-slate-100 shadow-xl">
-                <div class="absolute inset-0 bg-gradient-to-t from-brand-blue via-transparent to-transparent opacity-60 z-10"></div>
-                <!-- Placeholder for board member images -->
-                <div class="w-full h-full bg-slate-200 animate-pulse"></div>
-                <div class="absolute bottom-10 left-10 z-20">
-                   <p class="text-brand-cyan font-black uppercase tracking-widest text-xs mb-1">Board Member</p>
-                   <h3 class="text-2xl font-black text-white">Professor {{ ['Adeyemi', 'Okoro', 'Umar'][i-1] }}</h3>
+          <div v-if="loadingBoard" class="flex justify-center py-20">
+             <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-brand-blue"></div>
+          </div>
+
+          <div v-else-if="boardMembers.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+             <div v-for="member in boardMembers" :key="member._id" class="relative group overflow-hidden rounded-[2rem] aspect-[4/5] bg-white border border-slate-100 shadow-sm transition-all hover:shadow-xl">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent opacity-80 z-10 transition-opacity group-hover:opacity-100"></div>
+                
+                <img v-if="member.profileImage" :src="member.profileImage" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" :alt="member.fullName" />
+                <div v-else class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
+                   <LucideUser :size="64" />
+                </div>
+
+                <div class="absolute bottom-8 left-8 right-8 z-20">
+                   <p class="text-brand-cyan font-black uppercase tracking-[0.2em] text-[8px] mb-1.5">{{ member.designation || 'Board Member' }}</p>
+                   <h3 class="text-xl font-black text-white leading-tight">{{ member.fullName }}</h3>
                 </div>
              </div>
           </div>
+
+          <EmptyState 
+            v-else 
+            title="Scientific Board Under Constitution" 
+            message="We are currently finalizing the appointments for our inaugural Scientific Board. Check back soon for updates."
+          />
        </div>
     </section>
   </div>
@@ -233,9 +247,12 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useGetBoardMembers } from '@/composables/modules/members/useGetBoardMembers'
 import hero1 from "@/assets/images/hero1.jpg"
 import hero2 from "@/assets/images/hero2.jpg"
 import hero3 from "@/assets/images/hero3.jpg"
+
+const { loading: loadingBoard, boardMembers, getBoardMembers } = useGetBoardMembers()
 import { 
     LucideMicroscope, 
     LucideFlaskConical, 

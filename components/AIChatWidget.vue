@@ -83,7 +83,7 @@
                <input 
                  v-model="guestName"
                  placeholder="e.g. Dr. Adamu"
-                 class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold focus:ring-4 focus:ring-[#075E54]/5 focus:border-[#075E54] outline-none transition-all placeholder:text-slate-300"
+                 class="form-input"
                />
              </div>
              
@@ -93,14 +93,14 @@
                  v-model="guestEmail"
                  type="email"
                  placeholder="scientific@domain.com"
-                 class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold focus:ring-4 focus:ring-[#075E54]/5 focus:border-[#075E54] outline-none transition-all placeholder:text-slate-300"
+                 class="form-input"
                />
              </div>
 
              <button 
                @click="identify"
                :disabled="!isValidIdentity"
-               class="w-full py-5 bg-[#075E54] text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-[#075E54]/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-30 disabled:grayscale disabled:scale-100 mt-6"
+               class="btn-premium w-full !py-4 shadow-none mt-6"
              >
                Begin Secure Contact
              </button>

@@ -34,6 +34,11 @@ h1 {
   h1, h2, h3, h4, .font-heading {
     font-family: 'Outfit', sans-serif;
   }
+
+  input, textarea, select {
+    @apply shadow-none !important;
+    box-shadow: none !important;
+  }
 }
 
 @layer components {
@@ -46,21 +51,33 @@ h1 {
     @apply bg-slate-900/80 backdrop-blur-xl border border-white/10;
   }
 
-  /* Redesigned Buttons */
+  /* Redesigned Buttons - Solid Brand Colors, Non-Gradient */
   .btn-premium {
-    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest rounded-full transition-all duration-300 relative overflow-hidden active:scale-95;
-    background: linear-gradient(135deg, var(--brand-dark), var(--brand-cyan));
-    color: white;
-    box-shadow: 0 10px 20px -5px rgba(3, 57, 88, 0.3);
+    @apply inline-flex items-center justify-center px-5 py-2 text-[9px] font-black uppercase tracking-[0.25em] rounded-lg transition-all duration-300 relative overflow-hidden active:scale-95 !important;
+    background: var(--brand-dark) !important;
+    color: white !important;
+    box-shadow: none !important; 
+    border: none !important;
+    font-size: 9px !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
   }
 
   .btn-premium:hover {
-    @apply shadow-xl shadow-cyan-500/20 translate-y-[-2px];
-    background: linear-gradient(135deg, var(--brand-cyan), var(--brand-dark));
+    @apply -translate-y-[1px] !important;
+    background: #022c4a !important; /* Slightly darker shift, no gradient */
   }
 
   .btn-outline-premium {
-    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest rounded-full border-2 border-slate-200 transition-all duration-300 hover:border-brand-dark hover:text-brand-dark active:scale-95;
+    @apply inline-flex items-center justify-center px-5 py-2 text-[9px] font-black uppercase tracking-[0.25em] rounded-lg border border-slate-200 transition-all duration-300 hover:border-brand-dark hover:text-brand-dark active:scale-95 shadow-none !important;
+  }
+
+  /* Custom Input Style - Minimalist / No Shadow */
+  .form-input {
+    @apply w-full bg-slate-50/30 border border-slate-200 rounded-lg py-2.5 px-4 text-[12px] font-bold text-brand-dark outline-none focus:border-brand-cyan focus:bg-white transition-all shadow-none !important;
+    box-shadow: none !important;
   }
 
   /* Marquee Animation */
@@ -97,7 +114,7 @@ h1 {
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#033958] to-[#00A8B5];
+  @apply text-[#033958];
 }
 
 /* Custom Scrollbar */

@@ -15,24 +15,22 @@ export const useRegister = () => {
         organization: ''
     })
 
-    const register = async () => {
-        if (!form.value.fullName || !form.value.email || !form.value.password) {
-            showToast({ title: "Validation", message: "Please fill in all required fields", toastType: "warning" })
-            return null
+    const register = async (payload?: any) => {
+        const dataToSubmit = payload || {
+            name: form.value.fullName,
+            email: form.value.email,
+            password: form.value.password,
+            role: form.value.role,
+            organization: form.value.organization
         }
+
         loading.value = true
         try {
-            const res = await auth_api.register({
-                name: form.value.fullName,
-                email: form.value.email,
-                password: form.value.password,
-                role: form.value.role,
-                organization: form.value.organization
-            }) as any
-            showToast({ title: "Success", message: "Registration successful! Please check your email.", toastType: "success" })
+            const res = await auth_api.register(dataToSubmit) as any
+            showToast({ title: "Success", message: "Enrollment initiated! Our secretariat will verify your credentials.", toastType: "success" })
             return res.data
         } catch (err: any) {
-            showToast({ title: "Error", message: err?.response?.data?.message || "Registration failed", toastType: "error" })
+            showToast({ title: "Error", message: err?.response?.data?.message || "Protocol execution failed", toastType: "error" })
             return null
         } finally {
             loading.value = false

@@ -5,4 +5,5 @@ export const members_api = {
     getOne: (id: string) => GATEWAY_ENDPOINT.get(`/members/${id}`),
     update: (id: string, payload: any) => GATEWAY_ENDPOINT.patch(`/members/${id}`, payload),
     delete: (id: string) => GATEWAY_ENDPOINT.delete(`/members/${id}`),
+    findBoardMembers: () => GATEWAY_ENDPOINT.get('/members/board'),
 }

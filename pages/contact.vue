@@ -5,21 +5,20 @@
     <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-dark/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
     <!-- Premium Hero Section -->
-    <section class="relative pt-40 pb-24 overflow-hidden bg-brand-dark">
+    <section class="relative pt-40 pb-20 overflow-hidden bg-[#033958]">
       <div class="absolute inset-0 z-0">
-         <img src="@/assets/images/hero1.jpg" class="w-full h-full object-cover opacity-20" alt="Laboratory Background" />
-         <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/80 to-transparent"></div>
+         <div class="absolute inset-0 bg-gradient-to-br from-[#033958] via-[#00A8B5]/20 to-transparent"></div>
       </div>
       
-      <div class="container mx-auto px-6 relative z-10 text-center space-y-8">
-        <span class="inline-block px-5 py-2 glass text-brand-cyan font-black text-xs uppercase tracking-[0.3em] rounded-full">
-           Strategic Connectivity
+      <div class="container mx-auto px-6 relative z-10 text-center space-y-6">
+        <span class="inline-block px-4 py-1 glass text-brand-cyan font-black text-[10px] uppercase tracking-[0.4em] rounded-full">
+           Strategic Hub
         </span>
-        <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none mb-6">
+        <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4">
            Connect With <span class="text-brand-cyan">SCPSN</span>.
         </h1>
-        <p class="text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed opacity-90">
-           Direct engagement for scientific inquiries, institutional partnerships, and specialized laboratory consultations.
+        <p class="text-lg text-slate-300 max-w-xl mx-auto font-medium leading-relaxed opacity-90">
+           Direct engagement for scientific inquiries and laboratory consultations.
         </p>
       </div>
     </section>
@@ -69,25 +68,33 @@
 
             <!-- Sleek Form Card -->
             <div class="lg:col-span-7 relative">
-               <div class="interactive-card p-12 lg:p-16 relative z-10">
-                  <div v-if="success" class="absolute inset-0 bg-white/98 flex flex-col items-center justify-center z-20 text-center p-12 animate-in fade-in zoom-in duration-500 rounded-[40px]">
-                    <div class="w-24 h-24 bg-brand-cyan/10 text-brand-cyan rounded-3xl flex items-center justify-center mb-8 animate-bounce">
-                      <LucideCheckCircle :size="48" />
-                    </div>
-                    <h3 class="text-3xl font-black text-brand-dark mb-4 tracking-tighter">Request Formalized</h3>
-                    <p class="text-slate-500 font-medium max-w-xs mx-auto mb-10 leading-relaxed">Your engagement request has been integrated into our queue. A designated representative will initiate contact shortly.</p>
-                    <button @click="success = false" class="btn-premium px-12">New Engagement</button>
-                  </div>
+                <div class="interactive-card p-12 lg:p-16 relative z-10">
+                   <!-- Success States -->
+                   <div v-if="success || enquirySuccess" class="absolute inset-0 bg-white/98 flex flex-col items-center justify-center z-20 text-center p-12 animate-in fade-in zoom-in duration-500 rounded-[40px]">
+                     <div class="w-24 h-24 bg-brand-cyan/10 text-brand-cyan rounded-3xl flex items-center justify-center mb-8 animate-bounce">
+                       <LucideCheckCircle :size="48" />
+                     </div>
+                     <h3 class="text-3xl font-black text-brand-dark mb-4 tracking-tighter">Request Received</h3>
+                     <p class="text-slate-500 font-medium max-w-xs mx-auto mb-10 leading-relaxed">Your engagement request has been integrated into our queue. A designated representative will initiate contact shortly.</p>
+                     <button @click="success = false; enquirySuccess = false" class="btn-premium px-12">New Engagement</button>
+                   </div>
 
-                  <form @submit.prevent="submitAppointment" class="space-y-10">
+                   <!-- Form Toggles -->
+                   <div class="flex gap-2 p-1 bg-slate-100 rounded-2xl mb-12">
+                     <button @click="contactTab = 'appointment'" :class="['flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all', contactTab === 'appointment' ? 'bg-white text-brand-dark shadow-sm' : 'text-slate-400']">Appointment</button>
+                     <button @click="contactTab = 'enquiry'" :class="['flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all', contactTab === 'enquiry' ? 'bg-white text-brand-dark shadow-sm' : 'text-slate-400']">General Inquiry</button>
+                   </div>
+
+                   <!-- Appointment Form -->
+                   <form v-if="contactTab === 'appointment'" @submit.prevent="submitAppointment" class="space-y-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                       <div class="space-y-3">
                         <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Designation & Name</label>
-                        <input v-model="appointment.fullName" type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 text-sm font-bold text-brand-dark outline-none focus:border-brand-cyan transition-all" placeholder="Dr. John Doe, MLS" />
+                        <input v-model="appointment.fullName" type="text" required class="form-input" placeholder="Dr. John Doe, MLS" />
                       </div>
                       <div class="space-y-3">
                         <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Official Email</label>
-                        <input v-model="appointment.email" type="email" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 text-sm font-bold text-brand-dark outline-none focus:border-brand-cyan transition-all" placeholder="john@example.com" />
+                        <input v-model="appointment.email" type="email" required class="form-input" placeholder="john@example.com" />
                       </div>
                     </div>
 
@@ -95,13 +102,13 @@
                       <div class="space-y-3">
                         <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Priority Date</label>
                         <div class="relative">
-                           <input v-model="appointment.date" type="date" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 text-sm font-bold text-brand-dark outline-none focus:border-brand-cyan transition-all" />
+                           <input v-model="appointment.date" type="date" required class="form-input" />
                         </div>
                       </div>
                       <div class="space-y-3">
                         <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Engagement Intent</label>
                         <div class="relative">
-                           <select v-model="appointment.purpose" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 text-sm font-bold text-brand-dark outline-none focus:border-brand-cyan appearance-none cursor-pointer">
+                           <select v-model="appointment.purpose" required class="form-input appearance-none cursor-pointer">
                               <option value="" disabled>Select Engagement Type</option>
                               <option>Membership Protocols</option>
                               <option>Conference Sponsorship</option>
@@ -117,18 +124,38 @@
 
                     <div class="space-y-3">
                       <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Brief Context</label>
-                      <textarea v-model="appointment.message" rows="5" class="w-full bg-slate-50 border border-slate-200 rounded-[32px] py-8 px-8 text-sm font-medium text-slate-600 outline-none focus:border-brand-cyan focus:bg-white transition-all resize-none shadow-inner" placeholder="Provide strategic details..."></textarea>
+                      <textarea v-model="appointment.message" rows="5" class="form-input !py-3 !px-8 !rounded-[24px] resize-none" placeholder="Provide strategic details..."></textarea>
                     </div>
 
-                    <button type="submit" :disabled="loading" class="btn-premium w-full py-6 text-xs tracking-[0.4em] shadow-2xl shadow-brand-cyan/20">
+                    <button type="submit" :disabled="loading" class="btn-premium w-full !py-4">
                        <span v-if="loading" class="flex items-center gap-3">
                           <div class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                           TRANSMITTING...
                        </span>
                        <span v-else>FORMALIZE APPOINTMENT</span>
                     </button>
-                  </form>
-               </div>
+                   </form>
+
+                   <!-- Inquiry Form -->
+                   <form v-else @submit.prevent="submitEnquiry" class="space-y-8">
+                     <div class="space-y-3">
+                        <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Your Name</label>
+                        <input v-model="enquiryPayload.fullName" type="text" required class="form-input" placeholder="Full Name" />
+                     </div>
+                     <div class="space-y-3">
+                        <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Email Address</label>
+                        <input v-model="enquiryPayload.email" type="email" required class="form-input" placeholder="john@example.com" />
+                     </div>
+                     <div class="space-y-3">
+                        <label class="text-[10px] font-black text-brand-dark uppercase tracking-[0.2em] ml-2">Message</label>
+                        <textarea v-model="enquiryPayload.message" rows="6" class="form-input !py-3 !px-8 !rounded-[24px] resize-none" placeholder="How can we help you today?"></textarea>
+                     </div>
+                     <button type="submit" :disabled="enquiryLoading" class="btn-premium w-full !py-4">
+                        <span v-if="enquiryLoading">TRANSMITTING...</span>
+                        <span v-else>SEND MESSAGE</span>
+                     </button>
+                   </form>
+                </div>
             </div>
         </div>
       </div>
@@ -145,8 +172,11 @@
           <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter">Unified Scientific <span class="text-brand-cyan">Communications</span>.</h3>
           <p class="text-slate-400 max-w-xl mx-auto font-medium leading-relaxed">Join our scientific newsletter to receive prioritized updates on conference abstracts and legislative pathology news.</p>
           <div class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto pt-6">
-             <input type="email" placeholder="Official Email Address" class="flex-grow bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-sm text-white outline-none focus:border-brand-cyan transition-all" />
-             <button class="btn-premium px-12 py-5 text-xs">JOIN NETWORK</button>
+             <input v-model="newsletterEmail" type="email" placeholder="Official Email Address" class="form-input !bg-white/5 !border-white/10 !text-white placeholder:text-white/30" />
+             <button @click="subscribeNewsletter" :disabled="newsletterLoading" class="btn-premium !px-10 !py-4">
+                 <span v-if="newsletterLoading">JOINING...</span>
+                 <span v-else>JOIN NETWORK</span>
+             </button>
           </div>
        </div>
     </section>
@@ -165,8 +195,13 @@ import {
   LucideGlobe
 } from 'lucide-vue-next'
 import { useCreateAppointment } from '@/composables/modules/appointments/useCreateAppointment'
+import { useNewsletter } from '@/composables/modules/newsletters/useNewsletter'
+import { useSubmitEnquiry } from '@/composables/modules/enquiries/useSubmitEnquiry'
 
+const contactTab = ref('appointment')
 const { loading, success, appointment, submitAppointment } = useCreateAppointment()
+const { loading: enquiryLoading, success: enquirySuccess, payload: enquiryPayload, submitEnquiry } = useSubmitEnquiry()
+const { loading: newsletterLoading, email: newsletterEmail, subscribe: subscribeNewsletter } = useNewsletter()
 
 const contactInfo = [
   {

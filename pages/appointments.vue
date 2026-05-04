@@ -27,17 +27,17 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-2">
                   <label class="text-[10px] font-black text-brand-dark uppercase tracking-widest ml-4">Full Legal Name</label>
-                  <input v-model="form.name" type="text" placeholder="Dr. John Doe" class="w-full px-6 py-4 bg-white/50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan outline-none transition-all placeholder:text-slate-300" required />
+                  <input v-model="appointment.fullName" type="text" placeholder="Dr. John Doe" class="form-input" required />
                 </div>
                 <div class="space-y-2">
                   <label class="text-[10px] font-black text-brand-dark uppercase tracking-widest ml-4">Email Address</label>
-                  <input v-model="form.email" type="email" placeholder="john@scientific.ng" class="w-full px-6 py-4 bg-white/50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan outline-none transition-all placeholder:text-slate-300" required />
+                  <input v-model="appointment.email" type="email" placeholder="john@scientific.ng" class="form-input" required />
                 </div>
               </div>
 
               <div class="space-y-2">
                 <label class="text-[10px] font-black text-brand-dark uppercase tracking-widest ml-4">Service Category</label>
-                <select v-model="form.service" class="w-full px-6 py-4 bg-white/50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan outline-none transition-all appearance-none cursor-pointer" required>
+                <select v-model="appointment.purpose" class="form-input appearance-none cursor-pointer" required>
                   <option value="" disabled selected>Select a professional service</option>
                   <option>Histopathology Case Review</option>
                   <option>Cytopathology Consultation</option>
@@ -50,21 +50,25 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-2">
                   <label class="text-[10px] font-black text-brand-dark uppercase tracking-widest ml-4">Preferred Date</label>
-                  <input v-model="form.date" type="date" class="w-full px-6 py-4 bg-white/50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan outline-none transition-all" required />
+                  <input v-model="appointment.date" type="date" class="form-input" required />
                 </div>
                 <div class="space-y-2">
                   <label class="text-[10px] font-black text-brand-dark uppercase tracking-widest ml-4">Preferred Time Slice</label>
-                  <input v-model="form.time" type="time" class="w-full px-6 py-4 bg-white/50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan outline-none transition-all" required />
+                  <input v-model="appointment.time" type="time" class="form-input" required />
                 </div>
               </div>
 
               <div class="space-y-2">
                 <label class="text-[10px] font-black text-brand-dark uppercase tracking-widest ml-4">Case Summary / Inquiry</label>
-                <textarea v-model="form.notes" rows="4" placeholder="Briefly describe the clinical context or scientific inquiry..." class="w-full px-6 py-4 bg-white/50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan outline-none transition-all resize-none placeholder:text-slate-300"></textarea>
+                <textarea v-model="appointment.message" rows="4" placeholder="Briefly describe the clinical context or scientific inquiry..." class="form-input !py-3 !px-8 !rounded-[24px] resize-none pb-12"></textarea>
               </div>
 
-              <button type="submit" class="w-full btn-premium py-5 group shadow-xl shadow-cyan-900/10">
-                <span class="flex items-center justify-center gap-3">
+              <button type="submit" :disabled="loading" class="w-full btn-premium !py-4 group">
+                <span v-if="loading" class="flex items-center justify-center gap-3">
+                   <div class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                   TRANSMITTING...
+                </span>
+                <span v-else class="flex items-center justify-center gap-3">
                   CONFIRM RESERVATION
                   <LucideArrowRight :size="18" class="group-hover:translate-x-2 transition-transform" />
                 </span>
@@ -125,15 +129,9 @@ import {
   LucideClock, 
   LucideGlobe 
 } from 'lucide-vue-next'
+import { useCreateAppointment } from '@/composables/modules/appointments/useCreateAppointment'
 
-const form = ref({
-  name: '',
-  email: '',
-  service: '',
-  date: '',
-  time: '',
-  notes: ''
-})
+const { loading, appointment, submitAppointment } = useCreateAppointment()
 
 const features = [
   { title: 'Global Benchmarks', desc: 'Consultations aligned with international diagnostic standards.', icon: LucideGlobe },
@@ -141,9 +139,8 @@ const features = [
   { title: 'Quick Turnaround', desc: 'Efficient case review within 48-72 business hours.', icon: LucideClock }
 ]
 
-const handleSubmit = () => {
-  console.log('Form Submitted:', form.value)
-  alert('Reservation Request Sent! A scientist will contact you shortly.')
+const handleSubmit = async () => {
+  await submitAppointment()
 }
 
 onMounted(() => {

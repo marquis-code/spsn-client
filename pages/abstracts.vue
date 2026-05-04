@@ -58,26 +58,26 @@
 
             <div class="glass-dark p-10 md:p-16 rounded-[3rem] border border-white/10 shadow-3xl">
                <form @submit.prevent="handleSubmit" class="space-y-8">
-                  <div class="space-y-2">
-                     <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Lead Investigator</label>
-                     <input v-model="form.author" type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white outline-none focus:border-brand-cyan transition-all" placeholder="Dr. Full Name" required />
-                  </div>
-                  <div class="space-y-2">
-                     <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Scientific Title</label>
-                     <input v-model="form.title" type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white outline-none focus:border-brand-cyan transition-all" placeholder="Enter research title" required />
-                  </div>
-                  <div class="space-y-2">
-                     <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Abstract Body</label>
-                     <textarea v-model="form.content" rows="6" class="w-full bg-white/5 border border-white/10 rounded-3xl py-6 px-6 text-sm text-white outline-none focus:border-brand-cyan transition-all resize-none" placeholder="Draft your research summary (Max 250 words)..." required></textarea>
+                   <div class="space-y-2">
+                      <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Lead Investigator</label>
+                      <input v-model="form.author" type="text" class="form-input !bg-white/5 !border-white/10 !text-white placeholder:text-white/30" placeholder="Dr. Full Name" required />
+                   </div>
+                   <div class="space-y-2">
+                      <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Scientific Title</label>
+                      <input v-model="form.title" type="text" class="form-input !bg-white/5 !border-white/10 !text-white placeholder:text-white/30" placeholder="Enter research title" required />
+                   </div>
+                   <div class="space-y-2">
+                      <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Abstract Body</label>
+                      <textarea v-model="form.content" rows="6" class="form-input !bg-white/5 !border-white/10 !text-white placeholder:text-white/30 !py-3 !px-8 !rounded-[24px] resize-none" placeholder="Draft your research summary (Max 250 words)..." required></textarea>
                      <div class="flex justify-between items-center px-2">
                         <p class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Max Word Count: 250</p>
                         <p :class="['text-[9px] font-black uppercase tracking-[0.2em]', wordCount > 250 ? 'text-brand-red' : 'text-brand-cyan']">{{ wordCount }} / 250</p>
                      </div>
                   </div>
-                  <button type="submit" :disabled="loading || wordCount > 250" class="btn-premium w-full py-5 text-[10px] uppercase tracking-[0.4em] shadow-2xl shadow-cyan-900/40">
-                     <span v-if="loading">Transmitting Data...</span>
-                     <span v-else>Formalize Submission</span>
-                  </button>
+                   <button type="submit" :disabled="loading || wordCount > 250" class="btn-premium w-full !py-4 shadow-2xl shadow-cyan-900/40">
+                      <span v-if="loading">Transmitting Data...</span>
+                      <span v-else>Formalize Submission</span>
+                   </button>
                </form>
             </div>
          </div>
