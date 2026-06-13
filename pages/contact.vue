@@ -11,7 +11,7 @@
           </div>
           <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
             Connect With
-            <span class="text-[#1d4e89]"> SCPSC.</span>
+            <span class="text-[#1d4e89]"> SCPSN.</span>
           </h1>
           <p class="text-[16px] text-slate-500 leading-relaxed max-w-[540px]">
             Direct engagement for scientific inquiries, appointments, and laboratory consultations with Nigeria's premier cellular pathology body.

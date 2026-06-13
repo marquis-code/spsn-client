@@ -29,13 +29,13 @@
           <div class="w-9 h-9 rounded-xl overflow-hidden border border-slate-200 flex-shrink-0 group-hover:border-blue-200 transition-colors duration-300">
             <img
               src="@/assets/images/logo.jpeg"
-              alt="SCPSC Logo"
+              alt="SCPSN Logo"
               class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
             />
           </div>
           <div class="flex flex-col leading-none gap-0.5">
             <span class="text-[14px] font-bold tracking-tight text-slate-900">
-              {{ cmsConfig?.global?.siteName || 'SCPSC' }}
+              {{ cmsConfig?.global?.siteName || 'SCPSN' }}
             </span>
             <span class="text-[9px] font-semibold tracking-[0.25em] text-blue-600 uppercase">Nigeria</span>
           </div>

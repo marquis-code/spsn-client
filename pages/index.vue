@@ -13,7 +13,7 @@
           <div>
             <div class="inline-flex items-center gap-2 bg-blue-50 text-[#1d4e89] text-xs font-semibold px-4 py-2 rounded-full mb-7 border border-blue-100">
               <LucideFlaskConical :size="13" />
-              Society of Cellular Pathology Sciences of Nigeria
+              Society for Cellular Pathology Scientists of Nigeria
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
               Precision in<br />
@@ -55,7 +55,7 @@
               <!-- Header row -->
               <div class="flex items-center justify-between mb-5">
                 <div>
-                  <p class="text-[11px] font-semibold text-blue-600 tracking-widest uppercase mb-0.5">SCPSC Gallery</p>
+                  <p class="text-[11px] font-semibold text-blue-600 tracking-widest uppercase mb-0.5">SCPSN Gallery</p>
                   <h3 class="text-[15px] font-bold text-slate-800">From our archive</h3>
                 </div>
                 <div class="flex items-center gap-2">
@@ -143,7 +143,7 @@
           <div class="lg:hidden mt-8">
             <div class="flex items-center justify-between mb-4">
               <div>
-                <p class="text-[11px] font-semibold text-blue-600 tracking-widest uppercase mb-0.5">SCPSC Gallery</p>
+                <p class="text-[11px] font-semibold text-blue-600 tracking-widest uppercase mb-0.5">SCPSN Gallery</p>
                 <h3 class="text-[14px] font-bold text-slate-800">From our archive</h3>
               </div>
               <NuxtLink to="/about" class="text-[12px] text-[#1d4e89] font-semibold inline-flex items-center gap-1">
@@ -546,7 +546,7 @@
               to="/about"
               class="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 text-[14px] font-semibold px-7 py-3.5 rounded-xl transition-colors duration-200"
             >
-              Learn more about SCPSC
+              Learn more about SCPSN
             </NuxtLink>
           </div>
         </div>
