@@ -395,6 +395,44 @@
     </section>
 
 
+    <!-- ─── BI-ANNUAL DIGESTS ───────────────────────────────────── -->
+    <section v-if="groupedDigests && groupedDigests.length > 0" class="bg-slate-50 border-b border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        <div class="text-center mb-12">
+          <p class="text-[11px] font-semibold text-blue-600 tracking-widest uppercase mb-2">Publications</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-3">Bi-Annual Association Digests</h2>
+          <p class="text-[15px] text-slate-500 max-w-md mx-auto">Read our latest bi-annual publications, reports and updates from the association.</p>
+        </div>
+
+        <div class="space-y-8 max-w-4xl mx-auto">
+          <div v-for="group in groupedDigests" :key="group.year" class="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8">
+            <h3 class="text-2xl font-bold text-[#1d4e89] mb-6 flex items-center gap-3">
+              <LucideBookOpen :size="24" />
+              {{ group.year }}
+            </h3>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <button
+                v-for="digest in group.digests"
+                :key="digest._id"
+                @click.prevent="openPdfPreview(digest.pdfUrl)"
+                class="flex items-start text-left w-full gap-4 p-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all duration-300 group"
+              >
+                <div class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+                  <LucideFileText :size="24" class="group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div>
+                  <h4 class="text-[15px] font-semibold text-slate-800 mb-1 leading-snug group-hover:text-blue-600 transition-colors">{{ digest.title }}</h4>
+                  <span class="text-[13px] text-slate-500 font-medium inline-flex items-center gap-1">
+                    View PDF <LucideArrowRight :size="12" class="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ─── MEMBERSHIP TIERS ───────────────────────────────────── -->
     <section class="bg-white border-b border-slate-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
@@ -553,6 +591,26 @@
       </div>
     </section>
 
+    <!-- ─── PDF PREVIEW MODAL ──────────────────────────────────── -->
+    <Teleport to="body">
+      <div v-if="pdfModalOpen" class="fixed inset-0 z-[99999] flex flex-col bg-white">
+        <div class="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-slate-100 bg-white shrink-0 shadow-sm">
+          <h3 class="text-lg font-bold text-slate-800">Digest Preview</h3>
+          <button @click="closePdfPreview" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
+            <LucideX :size="24" class="text-slate-600" />
+          </button>
+        </div>
+        <div class="flex-1 w-full bg-slate-100 relative">
+          <iframe
+            v-if="selectedPdfUrl"
+            :src="selectedPdfUrl"
+            class="w-full h-full border-none"
+            title="PDF Preview"
+          ></iframe>
+        </div>
+      </div>
+    </Teleport>
+
   </div>
 </template>
 
@@ -578,6 +636,8 @@ import {
   LucideMapPin,
   LucideMenu,
   LucideX,
+  LucideBookOpen,
+  LucideFileText,
 } from 'lucide-vue-next'
 
 import { useGetExcos } from '@/composables/modules/excos/useGetExcos'
@@ -585,6 +645,7 @@ import { useAdverts } from '@/composables/modules/adverts/useAdverts'
 import { useSponsors } from '@/composables/modules/sponsors/useSponsors'
 import { useGetConferences } from '@/composables/modules/conferences/useGetConferences'
 import { useGallery } from '@/composables/useGallery'
+import { useDigests } from '@/composables/useDigests'
 import { useCMS } from '@/composables/useCMS'
 
 // ─── Composables ────────────────────────────────────────────
@@ -594,9 +655,22 @@ const { loading: loading, excos: excosList, getExcos: fetchExcos } = useGetExcos
 const { groupedAdverts, fetchAdverts } = useAdverts()
 const { sponsors, fetchSponsors } = useSponsors()
 const { conferences, getConferences } = useGetConferences()
+const { groupedDigests, fetchDigests } = useDigests()
 
 // ─── Nav ─────────────────────────────────────────────────────
 const mobileMenuOpen = ref<boolean>(false)
+const selectedPdfUrl = ref<string | null>(null)
+const pdfModalOpen = ref<boolean>(false)
+
+const openPdfPreview = (url: string) => {
+  selectedPdfUrl.value = url
+  pdfModalOpen.value = true
+}
+
+const closePdfPreview = () => {
+  pdfModalOpen.value = false
+  selectedPdfUrl.value = null
+}
 
 const navLinks = [
   { label: 'About', to: '/about' },
@@ -770,6 +844,7 @@ onMounted(async () => {
   await getExcos()
   await fetchExcos()
   startCarouselTimer()
+  fetchDigests()
 })
 
 onUnmounted(() => {
